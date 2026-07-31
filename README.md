@@ -10,7 +10,7 @@
 
 Most inventory dashboards stop at "here's what's low." This pipeline goes one step further: given a fixed budget, it decides **exactly how many units of which SKUs to order**, by solving a bounded linear program that weighs stock-out risk against cost-efficiency.
 
-**What it is not:** a validated forecasting system. All demand, lead-time, and vendor data are synthetically generated — this project demonstrates the engineering and optimization mechanics end-to-end, not a production-validated business result. Full honesty on scope is in [`docs/Project_Documentation_and_Results.pdf`](docs/Project_Documentation_and_Results.pdf).
+All demand, lead-time, and vendor data are synthetically generated — this project demonstrates the engineering and optimization mechanics end-to-end, not a production-validated forecast (see [Scope & Limitations](#scope--limitations)).
 
 ---
 
@@ -63,7 +63,7 @@ The first version of the solver only set a **lower bound** on order quantity (mu
 
 ![Stock-out risk before vs after optimization](results/risk_before_after.png)
 
-*Real output from Phase 3 — 20 highest-risk items in the batch, before and after the solver runs. `risk_after` is computed exactly from `risk_before × current_stock / (current_stock + order_qty)`, no demand/lead-time terms needed since they cancel algebraically.*
+*Real output from Phase 3 — 20 highest-risk items in the batch, before and after the solver runs.*
 
 ### The budget-constrained solve
 ![Budget range vs actual spend](results/budget_breakdown.png)
@@ -83,16 +83,12 @@ A sample of the real output rows is in [`results/sample_procurement_plan_top20.c
 
 ---
 
-## Honest Limitations
-
-This project is deliberately documented with its own gaps rather than overselling them:
+## Scope & Limitations
 
 - All data is synthetic — there's no historical demand to backtest against.
-- The optimizer solves for 500 of ~55,838 flagged items per cycle (a representative batch, not the full backlog — that batching loop isn't built yet).
+- The optimizer solves for 500 of ~55,838 flagged items per cycle (a representative batch, not the full backlog).
 - Budget headroom and buffer constants are reasonable defaults, not derived from a real service-level or holding-cost model.
-- The ABC ranking step uses a global window function that's fine at 100K rows but wouldn't scale to millions without rework (documented in the code, not fixed).
-
-Full write-up: [`docs/Project_Documentation_and_Results.pdf`](docs/Project_Documentation_and_Results.pdf)
+- The ABC ranking step uses a global window function that's fine at 100K rows but wouldn't scale to millions without rework.
 
 ---
 
@@ -105,10 +101,8 @@ supply-chain-optimization-engine/
 ├── Phase_2_Inventory_Transformation.ipynb
 ├── Phase_3_Optimization_Solver.ipynb
 ├── Phase_4_Final_Project_Orchestrator.ipynb
-├── results/
-│   ├── risk_before_after.png
-│   ├── budget_breakdown.png
-│   └── sample_procurement_plan_top20.csv
-└── docs/
-    └── Project_Documentation_and_Results.pdf
+└── results/
+    ├── risk_before_after.png
+    ├── budget_breakdown.png
+    └── sample_procurement_plan_top20.csv
 ```

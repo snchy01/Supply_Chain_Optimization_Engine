@@ -61,12 +61,12 @@ The first version of the solver only set a **lower bound** on order quantity (mu
 
 **Fix:** added a data-driven upper bound (`shortfall + 0.5 × reorder_point`) per item, and made the budget itself a function of the batch's floor and ceiling cost rather than a hardcoded number. Result:
 
-![Stock-out risk before vs after optimization](results/risk_before_after.png)
+![Stock-out risk before vs after optimization](Results/risk_before_after.png)
 
 *Real output from Phase 3 — 20 highest-risk items in the batch, before and after the solver runs.*
 
 ### The budget-constrained solve
-![Budget range vs actual spend](results/budget_breakdown.png)
+![Budget range vs actual spend](Results/budget_breakdown.png)
 
 | Metric | Value |
 |---|---|
